@@ -31,8 +31,6 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
-      - name: Publish OctoPetShopDatabase
-        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.sqlproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
       - name: Publish OctoPetShopWeb
         run: dotnet publish src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
       - name: Publish OctoPetShopProductService
@@ -43,9 +41,6 @@ jobs:
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
           version: latest
-      - name: Package OctoPetShopDatabase
-        run: |
-          octo pack --id="OctoPetShop.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
       - name: Package OctoPetShopWeb
         run: |
           octo pack --id="OctoPetShop.Web" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC" --outFolder="$GITHUB_WORKSPACE/artifacts"
