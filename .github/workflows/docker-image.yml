@@ -31,26 +31,26 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
-      - name: Publish OctoPetShopWeb
+      - name: Publish TicketManagementWeb
         run: dotnet publish src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
-      - name: Publish OctoPetShopProductService
+      - name: Publish TicketManagementEventService
         run: dotnet publish src/TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
-      - name: Publish OctoPetShopShoppingCartService
+      - name: Publish TicketManagementUserService
         run: dotnet publish src/TicketManagement.UserManagement.API/TicketManagement.UserManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
           version: latest
-      - name: Package OctoPetShopWeb
+      - name: Package TicketManagementWeb
         run: |
           octo pack --id="TicketManagement.MVC" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC" --outFolder="$GITHUB_WORKSPACE/artifacts"
-      - name: Package OctoPetShopProductService
+      - name: Package TicketManagementEventService
         run: |
           octo pack --id="TicketManagement.EventManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
-      - name: Package OctoPetShopShoppingCartService
+      - name: Package TicketManagementUserService
         run: |
           octo pack --id="TicketManagement.UserManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
-      - name: Push OctoPetShop packages
+      - name: Push TicketManagement packages
         uses: OctopusDeploy/push-package-action@v1.1.1
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
@@ -61,6 +61,6 @@ jobs:
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
-          project: "Octo Pet Shop"
+          project: "Ticket Management"
           deploy_to: "Dev"
           progress: true
