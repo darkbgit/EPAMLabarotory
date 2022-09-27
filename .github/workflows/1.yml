@@ -15,4 +15,4 @@ jobs:
         with:
           version: latest
       - name: Push TicketManagement packages
-        run: octo push --server="http://tm.octo.com/" --apiKey="API-ECXLXWLZTXWC2LHZADGSVTFRNJMZEKD"
+        run: octo push --server="http://tm.octo.com/" --apiKey="API-RKM2J2QNUPCKZ5N5Y73UDNOPJ5GP4KCJ"
