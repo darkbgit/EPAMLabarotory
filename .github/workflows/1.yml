@@ -15,7 +15,4 @@ jobs:
         with:
           version: latest
       - name: Push TicketManagement packages
-        uses: OctopusDeploy/push-package-action@v1.1.1
-        with:
-          api_key: API-ECXLXWLZTXWC2LHZADGSVTFRNJMZEKD
-          server: http://tm.octopus.com/
+      - run: octo push --server="http://tm.octo.com/" --apiKey="API-ECXLXWLZTXWC2LHZADGSVTFRNJMZEKD"
