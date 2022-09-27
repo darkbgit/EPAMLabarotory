@@ -9,7 +9,6 @@ import reportWebVitals from "./reportWebVitals";
 import { store, StoreContext } from "./stores/store";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
-import { be, enUS, ru } from "date-fns/locale";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

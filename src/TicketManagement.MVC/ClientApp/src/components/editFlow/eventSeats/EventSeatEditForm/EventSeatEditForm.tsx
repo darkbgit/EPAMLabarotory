@@ -26,7 +26,7 @@ export const EventSeatEditForm = observer((): JSX.Element => {
     state: 0,
   };
 
-  const [eventSeat, setEventSeat] = useState(initSelectEventSeat);
+  const [eventSeat] = useState(initSelectEventSeat);
 
   const handleFormSubmit = (eventSeat: EventSeat) => {
     updateEventSeat(eventSeat);
