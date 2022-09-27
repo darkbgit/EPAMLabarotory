@@ -32,13 +32,13 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
       - name: Publish OctoPetShopDatabase
-        run: dotnet publish TicketManagement.Database/TicketManagement.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
       - name: Publish OctoPetShopWeb
-        run: dotnet publish TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
+        run: dotnet publish src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
       - name: Publish OctoPetShopProductService
-        run: dotnet publish TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
+        run: dotnet publish src/TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
       - name: Publish OctoPetShopShoppingCartService
-        run: dotnet publish TicketManagement.UserManagement.API/TicketManagement.UserManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
+        run: dotnet publish src/TicketManagement.UserManagement.API/TicketManagement.UserManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
@@ -61,13 +61,11 @@ jobs:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
           packages: "artifacts/TicketManagement.Database.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip"
-          space: ${{ secrets.OCTOPUSSERVER_SPACE }}
       - name: Create and deploy release
         uses: OctopusDeploy/create-release-action@v1.1.1
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
-          space: ${{ secrets.OCTOPUSSERVER_SPACE }}
           project: "Octo Pet Shop"
           deploy_to: "Dev"
           progress: true
