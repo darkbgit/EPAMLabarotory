@@ -43,13 +43,13 @@ jobs:
           version: latest
       - name: Package OctoPetShopWeb
         run: |
-          octo pack --id="OctoPetShop.Web" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC" --outFolder="$GITHUB_WORKSPACE/artifacts"
+          octo pack --id="TicketManagement.MVC" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC" --outFolder="$GITHUB_WORKSPACE/artifacts"
       - name: Package OctoPetShopProductService
         run: |
-          octo pack --id="OctoPetShop.ProductService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+          octo pack --id="TicketManagement.EventManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
       - name: Package OctoPetShopShoppingCartService
         run: |
-          octo pack --id="OctoPetShop.ShoppingCartService" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+          octo pack --id="TicketManagement.UserManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
       - name: Push OctoPetShop packages
         uses: OctopusDeploy/push-package-action@v1.1.1
         with:
