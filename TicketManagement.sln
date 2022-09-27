@@ -71,9 +71,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManagement.Core.Order
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManagement.OrderManagement.API", "src\TicketManagement.OrderManagement.API\TicketManagement.OrderManagement.API.csproj", "{010870A6-172C-444A-A7E5-BB33602D40A0}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{36430F65-3FAB-4BDF-A6AB-FD1A35FDB2F9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketManagement.Database.Build", "src\TicketManagement.Database.Build\TicketManagement.Database.Build.csproj", "{AECA6E4F-5A95-4EBB-A559-793633DB2009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketManagement.Database.Build", "src\TicketManagement.Database.Build\TicketManagement.Database.Build.csproj", "{AECA6E4F-5A95-4EBB-A559-793633DB2009}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,10 +153,6 @@ Global
 		{010870A6-172C-444A-A7E5-BB33602D40A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{010870A6-172C-444A-A7E5-BB33602D40A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{010870A6-172C-444A-A7E5-BB33602D40A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36430F65-3FAB-4BDF-A6AB-FD1A35FDB2F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36430F65-3FAB-4BDF-A6AB-FD1A35FDB2F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36430F65-3FAB-4BDF-A6AB-FD1A35FDB2F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36430F65-3FAB-4BDF-A6AB-FD1A35FDB2F9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AECA6E4F-5A95-4EBB-A559-793633DB2009}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AECA6E4F-5A95-4EBB-A559-793633DB2009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AECA6E4F-5A95-4EBB-A559-793633DB2009}.Release|Any CPU.ActiveCfg = Release|Any CPU
