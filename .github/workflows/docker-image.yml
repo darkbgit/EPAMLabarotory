@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
       - name: Test
-        run: dotnet test --no-restore --verbosity normal
+        run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj --no-restore --verbosity normal
       - name: Create artifacts folder
         run: |
           mkdir "$GITHUB_WORKSPACE/artifacts"
