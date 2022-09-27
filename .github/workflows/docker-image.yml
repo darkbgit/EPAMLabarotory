@@ -56,11 +56,13 @@ jobs:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
           packages: "artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip"
+          space: ${{ secrets.OCTOPUSSERVER_SPACE }}
       - name: Create and deploy release
         uses: OctopusDeploy/create-release-action@v1.1.1
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
+          space: ${{ secrets.OCTOPUSSERVER_SPACE }}
           project: "Ticket Management"
           deploy_to: "Dev"
           progress: true
