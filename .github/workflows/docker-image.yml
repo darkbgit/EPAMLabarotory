@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: dotnet restore ./TicketManagement.sln
       - name: Build
-        run: dotnet build TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
+        run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
       - name: Test
         run: dotnet test --no-restore --verbosity normal
       - name: Create artifacts folder
