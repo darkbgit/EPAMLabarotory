@@ -3,7 +3,7 @@ name: TicketManagement
 on:
   push:
     branches:
-      - task-6
+      - task-5
 
 jobs:
   build:

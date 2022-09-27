@@ -1,0 +1,21 @@
+name: TicketManagement
+
+on:
+  push:
+    branches:
+      - task-6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install Octopus CLI
+        uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
+        with:
+          version: latest
+      - name: Push TicketManagement packages
+        uses: OctopusDeploy/push-package-action@v1.1.1
+        with:
+          api_key: ${}
+          server: ${http://localhost}
