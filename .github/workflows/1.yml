@@ -1,4 +1,4 @@
-name: TicketManagement
+name: TicketManagement-test
 
 on:
   push:
@@ -18,4 +18,4 @@ jobs:
         uses: OctopusDeploy/push-package-action@v1.1.1
         with:
           api_key: ${}
-          server: ${http://localhost}
+          server: http://localhost/
