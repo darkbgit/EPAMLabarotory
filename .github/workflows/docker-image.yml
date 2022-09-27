@@ -32,7 +32,7 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
       - name: Publish OctoPetShopDatabase
-        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.sqlproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
       - name: Publish OctoPetShopWeb
         run: dotnet publish src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
       - name: Publish OctoPetShopProductService
