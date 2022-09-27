@@ -1,0 +1,37 @@
+﻿@page
+@using TicketManagement.MVC.Areas.Moderator.Pages.Manage
+@using Microsoft.AspNetCore.Mvc.Localization
+@model TicketManagement.MVC.Areas.Moderator.Pages.Manage.EventsLoadModel
+
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+    ViewData["ActivePage"] = ManageNavPages.EventsLoad;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@ViewLocalizer["view.Header"]
+
+<form enctype="multipart/form-data" method="post">
+    <dl>
+        <dt>
+            <label asp-for="FileUpload.FormFile"></label>
+        </dt>
+        <dd>
+            <input asp-for="FileUpload.FormFile" type="file" />
+            <span asp-validation-for="FileUpload.FormFile"></span>
+        </dd>
+    </dl>
+    @ViewLocalizer["view.UploadButtonSummary"]
+    <input id="uploadButton" class="btn btn-primary" type="submit" value="@ViewLocalizer["Load"]" />
+</form>
+
+<p class="result">
+    @Model.Result
+</p>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

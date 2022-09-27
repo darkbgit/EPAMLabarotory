@@ -1,0 +1,11 @@
+﻿@page
+@using TicketManagement.MVC.Areas.Admin.Pages.Manage
+@model TicketManagement.MVC.Areas.Admin.Pages.Manage.AdminModel
+@{
+    ViewData["Title"] = "Личный кабинет администратора";
+    ViewData["ActivePage"] = ManageNavPages.AdminPanel;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Users">Пользователи</a>

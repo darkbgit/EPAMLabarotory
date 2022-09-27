@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@model TicketManagement.MVC.Models.ViewModels.Roles.ChangeRoleViewModel
+
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+}
+
+@ViewLocalizer["view.Header", @Model.UserEmail]
+
+<form asp-action="Edit" asp-controller="Roles" method="post">
+    <input type="hidden" name="userId" value="@Model.UserId" />
+    <div class="form-group">
+        @foreach (var role in Model.AllRoles)
+        {
+            <input type="checkbox" name="roles" value="@role.Name"
+                   @(Model.UserRoles.Contains(role.Name) ? "checked=\"checked\"" : "")/>@role.Name<br />
+        }
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">@ViewLocalizer["view.Save"]</button>
+</form>

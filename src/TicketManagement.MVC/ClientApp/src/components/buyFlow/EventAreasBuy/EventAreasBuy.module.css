@@ -1,0 +1,13 @@
+.column {
+  width: auto;
+  height: 150px;
+}
+
+.button {
+  width: 140px;
+  height: 140px;
+}
+
+.button-selected {
+  background-color: red;
+}

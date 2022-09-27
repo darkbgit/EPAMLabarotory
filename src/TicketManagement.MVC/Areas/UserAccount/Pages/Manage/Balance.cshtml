@@ -1,0 +1,38 @@
+﻿@page
+@using TicketManagement.MVC.Areas.UserAccount.Pages.Manage
+@model TicketManagement.MVC.Areas.UserAccount.Pages.Manage.BalanceModel
+@{
+    ViewData["Title"] = "Balance";
+    ViewData["ActivePage"] = ManageNavPages.Balance;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-9">
+        <form id="balance" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-floating">
+                        <input asp-for="Balance" class="form-control" disabled />
+                        <label asp-for="Balance" class="form-label"></label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-floating">
+                        <input asp-for="Input.AddBalance" class="form-control" />
+                        <label asp-for="Input.AddBalance" class="form-label"></label>
+                        <span asp-validation-for="Input.AddBalance" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <button id="update-balance-button" type="submit" class="w-100 btn btn-lg btn-primary">Top up your balance</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

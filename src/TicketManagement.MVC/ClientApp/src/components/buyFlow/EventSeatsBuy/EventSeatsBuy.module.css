@@ -1,0 +1,13 @@
+.segment {
+  width: 20px;
+  height: 20px;
+}
+
+.button {
+  width: 25px;
+  height: 25px;
+}
+
+.button-selected {
+  background-color: red;
+}

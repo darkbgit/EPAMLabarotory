@@ -1,0 +1,22 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<TicketManagement.Core.Public.DTOs.VenueDTOs.VenueDto>
+
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+}
+
+
+@foreach (var venue in Model)
+{
+    <div class="card mb-3">
+        <div class="card-header">
+            @venue.Description
+        </div>
+        <div class="card-body">
+            <div class="card-text">@venue.Address</div>
+            <div class="card-text">@venue.Phone</div>
+        </div>
+    </div>
+}

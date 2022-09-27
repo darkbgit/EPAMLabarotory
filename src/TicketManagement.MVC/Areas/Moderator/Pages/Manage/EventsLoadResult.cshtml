@@ -1,0 +1,69 @@
+﻿@page
+@using TicketManagement.MVC.Areas.Moderator.Pages.Manage
+@model TicketManagement.MVC.Areas.Moderator.Pages.Manage.EventsLoadResultModel
+@{
+    ViewData["Title"] = "Added events";
+    ViewData["ActivePage"] = ManageNavPages.EventsLoad;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (Model.InputModel == null || !Model.InputModel.Any())
+{
+    <p>
+        No events added.
+    </p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <label asp-for="InputModel.First().Event.Description"></label>
+                </th>
+                <th>
+                    <label asp-for="InputModel.First().Event.StartDate"></label>
+                </th>
+                <th>
+                    <label asp-for="InputModel.First().Event.EndDate"></label>
+                </th>
+                <th>
+                    <label asp-for="InputModel.First().Event.ImageUrl"></label>
+                </th>
+                <th>
+                    <label asp-for="InputModel.First().IsAddedToDb"></label>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eventsLoadResult in Model.InputModel) {
+                <tr>
+                    <td>
+                        @eventsLoadResult.Event.Description
+                    </td>
+                    <td>
+                        @eventsLoadResult.Event.StartDate
+                    </td>
+                    <td>
+                        @eventsLoadResult.Event.EndDate
+                    </td>
+                    <td>
+                        <img src="/@eventsLoadResult.Event.ImageUrl" alt="" />
+                    </td>
+                    <td>
+                        @(eventsLoadResult.IsAddedToDb ? "Success" : "Unsuccessful")
+                    </td>
+                    <td>
+                        @if (!eventsLoadResult.IsAddedToDb)
+                        {
+                            @eventsLoadResult.Error
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

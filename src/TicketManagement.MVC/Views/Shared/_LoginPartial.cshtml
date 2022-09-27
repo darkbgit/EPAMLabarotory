@@ -1,0 +1,71 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TicketManagement.MVC.Utilities
+@using Microsoft.Extensions.Localization
+@using TicketManagement.Core.Public.Enums
+@using TicketManagement.MVC.Clients.UserManagement
+@using System.Security.Claims
+
+@inject IHttpContextAccessor HttpContextAccessor
+@inject IStringLocalizer<Loc> StringLocalizer
+@inject IUsersClient UsersClient
+
+@{
+    decimal balance = 0;
+
+    if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated! && (User.IsInRole(Roles.User.ToString()) || User.IsInRole(Roles.PremiumUser.ToString())))
+    {
+        var id = User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+
+        if (!string.IsNullOrEmpty(id) && Guid.TryParse(id, out var guidId))
+        {
+           balance = await UsersClient.GetUserBalance(guidId);
+        }
+    }
+}
+
+<ul class="navbar-nav">
+    @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated!)
+    {
+        var name = HttpContextAccessor.HttpContext.User.Identity.Name;
+
+        if (User.IsInRole(Roles.User.ToString()) || User.IsInRole(Roles.PremiumUser.ToString()))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="UserAccount" asp-page="/Manage/Index" title="Manage">@StringLocalizer["Hello"] @name</a>
+            </li>
+
+            <li class="nav-item" style="align-self: center;">
+                <a class="nav-link text-dark" title="Balance">@balance @StringLocalizer["CurrencySymbol"]</a>
+            </li>
+        }
+
+        if (User.IsInRole(Roles.Moderator.ToString()))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Moderator" asp-page="/Manage/Index" title="Manage">@StringLocalizer["Hello"] @name</a>
+            </li>
+        }
+
+        if (User.IsInRole(Roles.Admin.ToString()))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Admin" asp-page="/Manage/Index" title="Manage">@StringLocalizer["Hello"] @User.Identity?.Name!</a>
+            </li>
+        }
+
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">@StringLocalizer["Logout"]</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">@StringLocalizer["Register"]</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">@StringLocalizer["Login"]</a>
+        </li>
+    }
+</ul>

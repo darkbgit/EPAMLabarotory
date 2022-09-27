@@ -1,0 +1,64 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Areas.Moderator.Pages.Manage
+@using TicketManagement.MVC.Utilities
+@model TicketManagement.MVC.Areas.Moderator.Pages.Manage.EventAreaEditModel
+
+@inject IViewLocalizer ViewLocalizer
+@inject IStringLocalizer<Loc> StringLocalizer
+
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+    ViewData["ActivePage"] = ManageNavPages.Events;
+}
+
+<h3>@ViewData["Title"]</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <input asp-for="@Model.EventArea.Id" type="hidden" />
+            <input asp-for="@Model.EventArea.EventId" type="hidden" />
+
+            <div class="form-group mb-3">
+                <label asp-for="@Model.EventArea.Description"></label>
+                <input asp-for="@Model.EventArea.Description" class="form-control" />
+                <span asp-validation-for="@Model.EventArea.Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="@Model.EventArea.CoordX"></label>
+                <input asp-for="@Model.EventArea.CoordX" class="form-control" />
+                <span asp-validation-for="@Model.EventArea.CoordX" class="text-danger"></span>
+            </div>
+          
+            <div class="form-group mb-3">
+                <label asp-for="@Model.EventArea.CoordY"></label>
+                <input asp-for="@Model.EventArea.CoordY" class="form-control" />
+                <span asp-validation-for="@Model.EventArea.CoordY" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="@Model.EventArea.Price"></label>
+                <input asp-for="@Model.EventArea.Price" class="form-control" />
+                <span asp-validation-for="@Model.EventArea.Price" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <input type="submit" value="@StringLocalizer["Update"]" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./EventAreas" asp-route-eventId="@Model.EventArea.EventId">@StringLocalizer["Back"]</a> 
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+}

@@ -1,0 +1,115 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Areas.Moderator.Pages.Manage
+@using TicketManagement.MVC.Utilities
+@model EventsModel
+
+@inject IViewLocalizer ViewLocalizer
+@inject IStringLocalizer<Loc> StringLocalizer
+
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+    ViewData["ActivePage"] = ManageNavPages.Events;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<span class="AntiForge"> @Html.AntiForgeryToken() </span>
+
+@if (!string.IsNullOrEmpty(TempData["Result"]?.ToString()))
+{
+    <p class="text-danger">@TempData["Result"]</p>
+}
+
+<div class="col">
+    <div class="mb-3">
+        <a asp-page="./EventCreate">@ViewLocalizer["view.CreateLink"]</a>
+    </div>
+    <form asp-page="./Events" method="get">
+        <div class="input-group mb-3">
+            <span id="searchLabel" class="input-group-text">
+                @ViewLocalizer["view.Search"]:
+            </span>
+            <input type="text" class="form-control" name="SearchString" value="@Model.CurrentFilter"/>
+            <input type="submit" value="@ViewLocalizer["view.Search"]" class="btn btn-primary" />
+            <a style="display: flex; align-items: center; justify-content: flex-start" asp-page="./Events" data-bs-toggle="tooltip" data-bs-placement="top" title="@ViewLocalizer["view.TitleFilter"]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+                    <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+                </svg>
+            </a>
+        </div>
+    </form>
+    <form method="post">
+        <table class="table">
+            <tr>
+                <th>
+                    <a asp-page="./Events" asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.VenueSort">
+                        <label asp-for="Events.Items.First().VenueDescription"></label>
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Events" asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.LayoutSort">
+                        <label asp-for="Events.Items.First().LayoutDescription"></label>
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Events" asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.NameSort">
+                        <label asp-for="Events.Items.First().Name"></label>
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Events" asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.StartDateSort">
+                        <label asp-for="Events.Items.First().StartDate"></label>
+                    </a>
+                </th>
+                <th>
+                    <label asp-for="Events.Items.First().Duration"></label>
+                </th>
+                <th>
+                    <label asp-for="Events.Items.First().EventAreasCount"></label>
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var eventItem in Model.Events.Items)
+            {
+                <tr>
+                    <td>@eventItem.VenueDescription</td>
+                    <td>@eventItem.LayoutDescription</td>
+                    <td>@eventItem.Name</td>
+                    <td>@eventItem.StartDate</td>
+                    <td>@eventItem.Duration</td>
+                    <td>
+                        <a asp-page="./EventAreas" asp-route-eventId="@eventItem.Id">@eventItem.EventAreasCount</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" asp-page="./EventEdit" asp-route-id="@eventItem.Id">@StringLocalizer["Edit"]</a>
+                        <button asp-page-handler="Delete" asp-route-id="@eventItem.Id" onclick="return confirm('@StringLocalizer["DeleteConfirm"]')" class="btn btn-danger btn-sm">@StringLocalizer["Delete"]</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+</div>
+
+@{
+    var prevDisabled = !Model.Events.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Events.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Events"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Events.CurrentPage - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-primary @prevDisabled">
+    @ViewLocalizer["view.Previous"]
+</a>
+<a asp-page="./Events"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Events.CurrentPage + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    @ViewLocalizer["view.Next"]
+</a>

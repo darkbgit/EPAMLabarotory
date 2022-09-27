@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Utilities
+@model TicketManagement.MVC.Models.ViewModels.EventArea.EventAreaListWithInfoViewModel
+
+@inject IStringLocalizer<Loc> StringLocalizer
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    var cols = Model.EventAreas.Max(m => m.CoordX);
+    var rows = Model.EventAreas.Max(m => m.CoordY);
+}
+
+<div class="text-center justify-content-center mb-3">
+    <p>@Model.EventName</p>
+    <p>@Model.LayoutName</p>
+    <p>@StringLocalizer["BeginAt"] @Model.StartDate.ToLocalTime().ToString("g")</p>
+
+</div>
+
+<div class="text-center mb-3">
+    <h4>@ViewLocalizer["view.Header"]</h4>
+</div>
+
+<div class="row justify-content-center mb-4">
+    <div class="col"></div>
+    <div class="col-auto">
+    @for (var i = rows; i >= 0; i--)
+    {
+        <div class="row justify-content-center">
+            @for (var j = 0; j <= cols; j++)
+            {
+                <div class="col-auto m-1" style="width: 100px; height: 100px">
+                    @{ var item = @Model.EventAreas.FirstOrDefault(m => m.CoordX == j && m.CoordY == i);}
+                    @if (@item != null)
+                    {
+                        <div id="eventArea_@item.Id" class="event-area-unchecked"
+                                onclick="loadEventAreaDescriptionWithSeats('@item.Id')"
+                                data-bs-toggle="tooltip" data-bs-placement="top" title=@ViewLocalizer["view.PopUpSeatInfo", @item.Price, @item.FreeSeats]>
+                            @item.Description
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="event-area-empty"></div>
+                    }
+                        
+                </div>
+            }
+        </div>
+    }
+    </div>
+    <div class="col"></div>
+</div>
+
+<div id="eventAreaDescriptionContainer"></div>
+<div id="eventSeatsContainer"></div>
+
+@section scripts
+{
+    <script src="js/eventArea.js"></script>
+}

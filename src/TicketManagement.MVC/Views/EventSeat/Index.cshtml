@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using TicketManagement.Core.Public.Enums
+@model IEnumerable<TicketManagement.Core.Public.DTOs.EventSeatDTOs.EventSeatForListDto>
+
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    var cols = Model.Max(m => m.Number);
+    var rows = Model.Max(m => m.Row);
+}
+
+<div class="text-center mb-3">
+    <h4>@ViewLocalizer["view.Header"]</h4>
+</div>
+
+<div class="row justify-content-center mb-3">
+    <div class="col"></div>
+    <div class="col-auto">
+        @for (var i = rows; i > 0; i--)
+        {
+            <div class="row">
+                @for (var j = 1; j <= cols; j++)
+                {
+                    <div class="col-auto m-2" style="width: 20px; height: 20px">
+                        @{ var item = Model.FirstOrDefault(m => m.Row == i && m.Number == j); }
+                        @if (@item != null)
+                        {
+                            @switch (@item.State)
+                            {
+                                case SeatState.Free:
+                                    <div id="eventSeat_@item.Id" class="event-seat-free"
+                                         onclick="checkSeat('eventSeat_@item.Id')"
+                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Row - @item.Row&#013Number - @item.Number">
+                                    </div>
+                                    break;
+                                case SeatState.Occupied:
+                                case SeatState.InProcess:
+                                default:
+                                    <div id="eventSeat_@item.Id" class="event-seat-busy"
+                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Row - @item.Row&#013Number - @item.Number">
+                                    </div>
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            <div class="event-seat-empty"></div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="col"></div>
+</div>
+
+@if (User.IsInRole(Roles.User.ToString()))
+{
+    <div class="row justify-content-center">
+        <button type="button" class="btn btn-primary" onclick="buyTickets()" style="width: 100px">@ViewLocalizer["view.Buy"]</button>
+    </div>
+}
+
+<div id="eventSeatsResultContainer"></div>

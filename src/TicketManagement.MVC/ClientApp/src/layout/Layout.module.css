@@ -1,0 +1,27 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 250px auto minmax(320px, 1080px) auto;
+  grid-template-rows: auto 1fr auto;
+  gap: 0 30px;
+  grid-template-areas:
+    "header header header header"
+    "sidebar . body ."
+    "footer footer footer footer";
+}
+
+.header {
+  grid-area: header;
+}
+
+.footer {
+  grid-area: footer;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding-left: 20px;
+}
+
+.body {
+  grid-area: body;
+}

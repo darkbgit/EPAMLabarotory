@@ -1,0 +1,80 @@
+﻿@page
+@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Areas.Admin.Pages.Manage
+@using Microsoft.AspNetCore.Mvc.Localization
+@using TicketManagement.MVC.Utilities
+@model UsersListModel
+
+@inject IViewLocalizer ViewLocalizer
+@inject IStringLocalizer<Loc> StringLocalizer
+@{
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+    ViewData["ActivePage"] = ManageNavPages.AdminPanel;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<span class="AntiForge"> @Html.AntiForgeryToken() </span>
+
+@if (!string.IsNullOrEmpty(TempData["Result"]?.ToString()))
+{
+    <p class="text-danger">@TempData["Result"]</p>
+}
+
+<div class="col">
+    <div class="mb-3">
+        <a asp-page="./UserCreate">@ViewLocalizer["view.CreateLink"]</a>
+    </div>
+    <form method="post">
+        <table class="table">
+            <tr>
+                <th>
+                    <label asp-for="Users.Items.First().UserName"></label>
+                </th>
+                <th>
+                        <label asp-for="Users.Items.First().Email"></label>
+                </th>
+                <th>
+                        <label asp-for="Users.Items.First().FirstName"></label>
+                </th>
+                <th>
+                        <label asp-for="Users.Items.First().Surname"></label>
+                </th>
+                <th>
+                    <label asp-for="Users.Items.First().Roles"></label>
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var user in Model.Users.Items)
+            {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.Surname</td>
+                    <td>@string.Join(" , ", user.Roles.ToList())</td>
+                    <td>
+                        <a class="btn btn-outline-primary" asp-page="./UserEdit" asp-route-id="@user.Id">@StringLocalizer["Edit"]</a>
+                        <button asp-page-handler="Delete" asp-route-id="@user.Id" onclick="return confirm('@StringLocalizer["DeleteConfirm"]')" class="btn btn-danger btn-sm">@StringLocalizer["Delete"]</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+</div>
+
+@{
+    var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./UsersList"
+   asp-route-pageIndex="@(Model.Users.CurrentPage - 1)"
+   class="btn btn-primary @prevDisabled">
+    @ViewLocalizer["view.Previous"]
+</a>
+<a asp-page="./UsersList"
+   asp-route-pageIndex="@(Model.Users.CurrentPage + 1)"
+   class="btn btn-primary @nextDisabled">
+    @ViewLocalizer["view.Next"]
+</a>

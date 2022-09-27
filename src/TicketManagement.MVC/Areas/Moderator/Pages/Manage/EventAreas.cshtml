@@ -1,0 +1,87 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Areas.Moderator.Pages.Manage
+@using TicketManagement.MVC.Utilities
+@model TicketManagement.MVC.Areas.Moderator.Pages.Manage.EventAreasModel
+
+@inject IViewLocalizer ViewLocalizer
+@inject IStringLocalizer<Loc> StringLocalizer
+
+@{ 
+    ViewData["Title"] = ViewLocalizer["view.Title"];
+    ViewData["ActivePage"] = ManageNavPages.Events;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+@if (!string.IsNullOrEmpty(TempData["Result"]?.ToString()))
+{
+    <p class="text-danger">@TempData["Result"]</p>
+}
+
+<div class="col">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div> 
+    <form method="post">
+        <input asp-for="@Model.EventId" type="hidden"/>
+        <table class="table">
+            <tr>
+                <th>
+                    <label asp-for="@Model.EventAreas.Items.First().Description" class="form-label"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.EventAreas.Items.First().CoordX" class="form-label"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.EventAreas.Items.First().CoordY" class="form-label"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.EventAreas.Items.First().Price" class="form-label"></label>
+                </th>
+                <th>
+                    <label asp-for="@Model.EventAreas.Items.First().TotalSeats" class="form-label"></label>
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var eventAreaItem in Model.EventAreas.Items)
+            {
+                <tr>
+                    <td>@eventAreaItem.Description</td>
+                    <td>@eventAreaItem.CoordX</td>
+                    <td>@eventAreaItem.CoordY</td>
+                    <td>@eventAreaItem.Price</td>
+                    <td>
+                        <a asp-page="./EventSeats" asp-route-eventId="@Model.EventId" asp-route-eventAreaId="@eventAreaItem.Id">@eventAreaItem.TotalSeats</a>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-row">
+                            <a class="btn btn-outline-primary me-3" asp-page="./EventAreaEdit" asp-route-id="@eventAreaItem.Id">@StringLocalizer["Edit"]</a>
+                            <button asp-page-handler="Delete" asp-route-id="@eventAreaItem.Id" onclick="return confirm('@StringLocalizer["DeleteConfirm"]')" class="btn btn-danger btn-sm">@StringLocalizer["Delete"]</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </table>
+    </form>
+</div>
+
+@{
+    var prevDisabled = !Model.EventAreas.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.EventAreas.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./EventAreas"
+   asp-route-eventId="@ViewData["CurrentSort"]"
+   asp-route-currentPage="@(Model.EventAreas.CurrentPage - 1)"
+   class="btn btn-primary @prevDisabled">
+    @StringLocalizer["Previous"]
+</a>
+<a asp-page="./EventAreas"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-currentPage="@(Model.EventAreas.CurrentPage + 1)"
+   class="btn btn-primary @nextDisabled">
+    @StringLocalizer["Next"]
+</a>
+
+<a class="nav-link" asp-page="./Events">@StringLocalizer["Back"]</a>

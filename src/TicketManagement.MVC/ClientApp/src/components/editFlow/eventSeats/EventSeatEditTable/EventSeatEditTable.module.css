@@ -1,0 +1,15 @@
+.table-row-edit-mode {
+  outline: red solid 2px;
+}
+
+.table-edit-mode {
+  pointer-events: none;
+}
+
+.button-edit-mode {
+  pointer-events: none;
+}
+
+.page {
+  margin-bottom: 10px;
+}

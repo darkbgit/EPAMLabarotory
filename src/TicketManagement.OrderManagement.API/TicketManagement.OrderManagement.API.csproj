@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
+    <PackageReference Include="Refit" Version="6.3.2" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="6.3.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TicketManagement.Core.Public\TicketManagement.Core.Public.csproj" />
+    <ProjectReference Include="..\TicketManagement.DataAccess.EF.Implamentations\TicketManagement.DataAccess.EF.Implementation.csproj" />
+    <ProjectReference Include="..\TicketManagement.OrderManagement.Services.Interfaces\TicketManagement.Core.OrderManagement.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\TicketManagement.OrderManagement.Services\TicketManagement.Core.OrderManagement.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="8.44.0.52574">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>none</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

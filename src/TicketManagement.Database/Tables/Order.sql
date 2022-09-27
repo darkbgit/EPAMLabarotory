@@ -1,0 +1,10 @@
+﻿CREATE TABLE [dbo].[Order]
+(
+	[Id] INT IDENTITY PRIMARY KEY, 
+    [EventSeatId] INT NOT NULL, 
+    [UserId] UNIQUEIDENTIFIER NOT NULL, 
+    [BoughtDate] DATETIME2 NOT NULL, 
+    [Price] DECIMAL NOT NULL, 
+    CONSTRAINT [FK_Order_AspNetUsers] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers]([Id]) ON DELETE CASCADE,
+    CONSTRAINT [FK_Order_EventSeat] FOREIGN KEY ([EventSeatId]) REFERENCES [EventSeat]([Id]) ON DELETE CASCADE
+)

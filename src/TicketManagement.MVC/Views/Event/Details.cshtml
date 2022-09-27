@@ -1,0 +1,36 @@
+﻿@using TicketManagement.MVC.Utilities.Extensions
+@model TicketManagement.Core.Public.DTOs.EventDTOs.EventForDetailsDto
+@{
+    ViewData["Title"] = "Event Page";
+    var timeZoneId = User.GetTimeZoneId();
+}
+<div class="row mb-3 text-center">
+    <h5>@Model.Name</h5>
+</div>
+<div class="row mb-3">
+    <div class="col-auto">
+        <img class="img-fluid rounded" style="width: 400px" src="@Model.ImageUrl" alt=""/>
+    </div>
+    <div class="col">
+        <div class="row mb-3">
+            <div style="text-indent: 30px">@Model.Description</div>
+        </div>
+        <div class="row mb-3 text-center">
+            <div>Start @Model.StartDate.ToLocalByTimeZoneId(timeZoneId).ToString("g")
+                duration @Model.Duration.ToString(@"hh\:mm") hrs</div>
+        </div>
+        
+        <button type="button" class="btn btn-primary position-relative" onclick="window.location.href = '@Url.Action("Index","EventArea", new { eventId = @Model.Id })'" disabled="@(Model.FreeSeats == 0 ? "disabled" : null)">
+            Buy ticket
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                @Model.FreeSeats
+                <span class="visually-hidden">available tickets</span>
+            </span>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div>Place - @Model.VenueDescription, @Model.LayoutDescription</div>
+    <div>Address - @Model.VenueAddress</div>
+    <div>Phone - @Model.VenuePhone</div>
+</div>

@@ -1,0 +1,35 @@
+﻿@page
+@using TicketManagement.MVC.Areas.UserAccount.Pages.Manage
+@model OrdersHistoryModel
+@{
+    ViewData["Title"] = "Orders history";
+    ViewData["ActivePage"] = ManageNavPages.OrdersHistory;
+}
+
+<h3>@ViewData["Title"]</h3>
+
+<div class="row">
+    <div class="col-md-9">
+        @if(!Model.Orders.Any())
+        {
+            <div>You don't have any orders.</div>
+        }
+        @foreach (var order in Model.Orders)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    Order № @order.Id
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@order.EventName</h5>
+                    <p class="card-text">@order.VenueName, @order.LayoutName Begin at @order.StartDate.ToLocalTime()</p>
+                    <p class="card-text">@order.EventAreaName, Row - @order.Row Number - @order.Number</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

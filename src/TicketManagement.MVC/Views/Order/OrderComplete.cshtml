@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<TicketManagement.MVC.Models.ViewModels.Order.TicketsBougthViewModel>
+
+@inject IViewLocalizer ViewLocalizer
+
+@{
+    static int GetCase(int value)
+    {
+        value %= 100;
+        if (value is > 10 and < 15)
+        {
+            return 2;
+        }
+        value %= 10;
+        if (value == 1)
+        {
+            return 0;
+        }
+        if (value is > 1 and < 5)
+        {
+            return 1;
+        }
+        return 2;
+    }
+}
+
+@if (Model.Any())
+{
+    <h4 class="text-success text-center mb-3">
+        @switch (GetCase(Model.Count()))
+        {
+            case 0:
+                @ViewLocalizer["view.HeaderOne", Model.Count()]
+                break;
+            case 1:
+                @ViewLocalizer["view.HeaderMany", Model.Count()]
+                break;
+            case 2:
+                @ViewLocalizer["view.HeaderMany2", Model.Count()]
+                break;
+        }
+    </h4>
+
+    @foreach (var ticket in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                @ViewLocalizer["view.CardHeader"] @ticket.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@ticket.EventName</h5>
+                <p class="card-text">@ViewLocalizer["view.CardBody1", ticket.VenueName, ticket.LayoutName, ticket.StartDate.ToLocalTime()]</p>
+                <p class="card-text">@ViewLocalizer["view.CardBody2", ticket.EventAreaName, ticket.Row, ticket.Number]</p>
+            </div>
+        </div>
+    }
+}

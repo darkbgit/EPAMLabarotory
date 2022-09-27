@@ -1,0 +1,103 @@
+version: "3.4"
+
+services:
+  ticketmanagement.ui:
+    image: ${DOCKER_REGISTRY-}ticketmanagement.ui
+    build:
+      context: .
+      dockerfile: ./src/TicketManagement.MVC/Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - events.api
+      - users.api
+      - orders.api
+    container_name: ticketmanagement.ui
+
+  events.api:
+    image: ${DOCKER_REGISTRY-}events.api
+    build:
+      context: .
+      dockerfile: ./src/TicketManagement.EventManagement.API/Dockerfile
+    ports:
+      - "7001:443"
+      - "5001:80"
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=sqldb;Database=mydatabase;User=sa;Password=Admin!1admin
+      - ASPNETCORE_URLS=https://+:443;http://+:80;
+      - ASPNETCORE_HTTPS_PORT=7001
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
+    volumes:
+      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    depends_on:
+      - sqldb
+    container_name: events.api
+
+  users.api:
+    image: ${DOCKER_REGISTRY-}users.api
+    build:
+      context: .
+      dockerfile: ./src/TicketManagement.UserManagement.API/Dockerfile
+    ports:
+      - "5002:80"
+      - "7002:443"
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=sqldb;Database=mydatabase;User=sa;Password=Admin!1admin
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=7002
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
+    volumes:
+      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    depends_on:
+      - sqldb
+    container_name: users.api
+
+  orders.api:
+    image: ${DOCKER_REGISTRY-}orders.api
+    build:
+      context: .
+      dockerfile: ./src/TicketManagement.OrderManagement.API/Dockerfile
+    ports:
+      - "5003:80"
+      - "7003:443"
+    environment:
+      - ConnectionStrings:DefaultConnection=Server=sqldb;Database=mydatabase;User=sa;Password=Admin!1admin
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_HTTPS_PORT=7003
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=1
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
+    volumes:
+      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    depends_on:
+      - sqldb
+    container_name: orders.api
+
+  sqldb:
+    image: ${DOCKER_REGISTRY-}sqldb
+    build:
+      context: .
+      dockerfile: ./src/TicketManagement.Database.Build/Dockerfile
+    ports:
+      - "5433:1433"
+    container_name: sqldb
+
+  # sqldb:
+  #   image: mcr.microsoft.com/mssql/server:2019-latest
+  #   user: root
+  #   environment:
+  #     - SA_PASSWORD=Password1!
+  #     - ACCEPT_EULA=Y
+  #   ports:
+  #     - "5433:1433"
+  #   container_name: sqldb
+
+  # sql.data:
+  #   image: mssql-linux
+  #   build:
+  #     context: .
+  #     dockerfile: ./Database/Dockerfile
+  #   ports:
+  #     - "5433:1433"
+  #   container_name: mssql.data

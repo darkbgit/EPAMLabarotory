@@ -1,0 +1,19 @@
+.table-row-edit-mode {
+  outline: red solid 2px;
+}
+
+.table-create-mode {
+  pointer-events: none;
+}
+
+.button-create-mode {
+  background-color: red;
+}
+
+.button-edit-mode {
+  pointer-events: none;
+}
+
+.ui.primary.button {
+  background-color: red;
+}

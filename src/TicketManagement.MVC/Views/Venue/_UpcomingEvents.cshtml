@@ -1,0 +1,15 @@
+﻿@model IEnumerable<TicketManagement.Core.Public.DTOs.EventDTOs.EventDto>
+
+
+@foreach (var item in Model)
+{
+    <div class="card">
+        <img/>
+        <div class="card-body">
+            <h5 class="card-title">@item.Name</h5>
+        </div>
+        <p class="card-text">@item.Description</p>
+        <p class="card-text">@item.StartDate</p>
+        <a href="#" class="btn btn-primary">Подробнее</a>
+    </div>
+}

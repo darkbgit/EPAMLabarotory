@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TicketManagement.DataAccess.Public": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:50826;http://localhost:50827"
+    }
+  }
+}

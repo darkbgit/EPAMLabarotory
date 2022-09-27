@@ -1,0 +1,38 @@
+﻿@using Microsoft.Extensions.Localization
+@using TicketManagement.MVC.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using TicketManagement.MVC.Utilities.Extensions
+@model TicketManagement.Core.Public.DTOs.EventDTOs.EventForListDto
+
+@inject IStringLocalizer<Loc> StringLocalizer
+
+<div class="col">
+    <div class="card" style="min-width: 460px; height: 270px; padding-left: 0">
+        <div class="row g-0">
+            <div class="col" style="height: 270px">
+                <img class="img-fluid rounded-start" style="height: 100%" src="@Model.ImageUrl" alt=""/>
+            </div>
+            <div class="col text-center">
+                <div class="card-body">
+                    <h5 class="card-title">@Model.Name</h5>
+                    <h6 class="card-subtitle mb-3">@StringLocalizer["Place"] @Model.VenueDescription, @Model.LayoutDescription</h6>
+                    <div class="card-text">@StringLocalizer["Start"] @Model.StartDate.ToLocalByTimeZoneId(ViewData.Eval("TimeZoneId")?.ToString()).ToString("g")</div>
+                    <div class="card-text">@StringLocalizer["Duration"] @Model.Duration.ToString(@"hh\:mm") hrs</div>
+                    @{
+                        if (Model.FreeSeats != 0)
+                        {
+                            <p class="card-text">@StringLocalizer["TicketsLeft"]
+                                <span class="badge rounded-pill bg-primary">@Model.FreeSeats</span>
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="card-text">@StringLocalizer["SoldOut"]</p>
+                        }
+                    }
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary">@StringLocalizer["MoreInfo"]</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
