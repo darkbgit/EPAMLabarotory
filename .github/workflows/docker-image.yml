@@ -37,6 +37,8 @@ jobs:
         run: dotnet publish src/TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
       - name: Publish TicketManagementUserService
         run: dotnet publish src/TicketManagement.UserManagement.API/TicketManagement.UserManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
+      - name: Publish TicketManagementOrderService
+        run: dotnet publish src/TicketManagement.OrderManagement.API/TicketManagement.OrderManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
@@ -50,6 +52,9 @@ jobs:
       - name: Package TicketManagementUserService
         run: |
           octo pack --id="TicketManagement.UserManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+      - name: Package TicketManagementUserService
+        run: |
+          octo pack --id="TicketManagement.OrderManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
       - name: Push TicketManagement packages
         uses: OctopusDeploy/push-package-action@v1.1.1
         with:
