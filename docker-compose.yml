@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   ticketmanagement.ui:
-    image: ${DOCKER_REGISTRY-}ticketmanagement.ui
+    image: darkbdochub/ticketmanagement.ui:latest
     build:
       context: .
       dockerfile: ./src/TicketManagement.MVC/Dockerfile
