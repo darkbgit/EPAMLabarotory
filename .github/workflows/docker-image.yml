@@ -3,7 +3,7 @@ name: TicketManagement
 on:
   push:
     branches:
-      - task-6
+      - task-7
 
 jobs:
   build:
@@ -13,16 +13,21 @@ jobs:
       - uses: actions/checkout@v2
       - name: Set Version
         run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
       - name: Setup .NET 6
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: "6.0.x"
+
       - name: Install dependencies
         run: dotnet restore ./TicketManagement.sln
+
       - name: Build
         run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
+
       - name: Test
         run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj --no-restore --verbosity normal
+
       - name: Create artifacts folder
         run: |
           mkdir "$GITHUB_WORKSPACE/artifacts"
@@ -31,37 +36,48 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
+
       - name: Publish TicketManagementWeb
         run: dotnet publish src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
+
       - name: Publish TicketManagementEventService
         run: dotnet publish src/TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
+
       - name: Publish TicketManagementUserService
         run: dotnet publish src/TicketManagement.UserManagement.API/TicketManagement.UserManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
+
       - name: Publish TicketManagementOrderService
         run: dotnet publish src/TicketManagement.OrderManagement.API/TicketManagement.OrderManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
+
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
         with:
           version: latest
+
       - name: Package TicketManagementWeb
         run: |
           octo pack --id="TicketManagement.MVC" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC" --outFolder="$GITHUB_WORKSPACE/artifacts"
+
       - name: Package TicketManagementEventService
         run: |
           octo pack --id="TicketManagement.EventManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+
       - name: Package TicketManagementUserService
         run: |
           octo pack --id="TicketManagement.UserManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+
       - name: Package TicketManagementUserService
         run: |
           octo pack --id="TicketManagement.OrderManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
+
       - name: Push TicketManagement packages
         uses: OctopusDeploy/push-package-action@v1.1.1
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
-          packages: "artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip"
+          packages: "artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip,,artifacts/TicketManagement.OrderManagement.API.${{ env.PACKAGE_VERSION }}.zip"
           space: ${{ secrets.OCTOPUSSERVER_SPACE }}
+
       - name: Create and deploy release
         uses: OctopusDeploy/create-release-action@v1.1.1
         with:
@@ -71,3 +87,19 @@ jobs:
           project: "Ticket Management"
           deploy_to: "Dev"
           progress: true
+
+      - name: Building docker image
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      - name: DockerHub login
+        uses: docker/login-action@v1
+        with:
+          username: "darkbdochub"
+          password: "dckr_pat_N4GUTjq-FvUYJ9iRGtHtt2UD5os"
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file:
+          push: true
+          tags: darkbdochub/mywebapp:latest # Please change the username here
