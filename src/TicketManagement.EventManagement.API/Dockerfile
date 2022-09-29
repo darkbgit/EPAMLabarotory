@@ -19,16 +19,16 @@ RUN dotnet build "TicketManagement.EventManagement.API.csproj" -c Release -o /ap
 FROM build AS publish
 RUN dotnet publish "TicketManagement.EventManagement.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-FROM build AS test
-WORKDIR /source/test
+# FROM build AS test
+# WORKDIR /source/test
 
-COPY test/TicketManagement.UnitTests/*.csproj .
-RUN dotnet restore tests.csproj
+# COPY test/TicketManagement.UnitTests/*.csproj .
+# RUN dotnet restore tests.csproj
 
-COPY tests/ .
-RUN dotnet build --no-restore
+# COPY tests/ .
+# RUN dotnet build --no-restore
 
-ENTRYPOINT ["dotnet", "test", "--logger:trx", "--no-restore", "--no-build"]
+# ENTRYPOINT ["dotnet", "test", "--logger:trx", "--no-restore", "--no-build"]
 
 FROM base AS final
 WORKDIR /app
