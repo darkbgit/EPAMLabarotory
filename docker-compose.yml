@@ -15,7 +15,7 @@ services:
     container_name: ticketmanagement.ui
 
   events.api:
-    image: ${DOCKER_REGISTRY-}events.api
+    image: darkbdochub/events.api:latest
     build:
       context: .
       dockerfile: ./src/TicketManagement.EventManagement.API/Dockerfile
@@ -28,14 +28,14 @@ services:
       - ASPNETCORE_HTTPS_PORT=7001
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
-    volumes:
-      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    # volumes:
+    #   - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
     depends_on:
       - sqldb
     container_name: events.api
 
   users.api:
-    image: ${DOCKER_REGISTRY-}users.api
+    image: darkbdochub/users.api:latest
     build:
       context: .
       dockerfile: ./src/TicketManagement.UserManagement.API/Dockerfile
@@ -48,14 +48,14 @@ services:
       - ASPNETCORE_HTTPS_PORT=7002
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
-    volumes:
-      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    # volumes:
+    #   - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
     depends_on:
       - sqldb
     container_name: users.api
 
   orders.api:
-    image: ${DOCKER_REGISTRY-}orders.api
+    image: darkbdochub/orders.api:latest
     build:
       context: .
       dockerfile: ./src/TicketManagement.OrderManagement.API/Dockerfile
@@ -68,14 +68,14 @@ services:
       - ASPNETCORE_HTTPS_PORT=7003
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/mnt/c/https/aspnetapp.pfx
-    volumes:
-      - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
+    # volumes:
+    #   - ${USERPROFILE}/.aspnet/https:/mnt/c/https:ro
     depends_on:
       - sqldb
     container_name: orders.api
 
   sqldb:
-    image: ${DOCKER_REGISTRY-}sqldb
+    image: darkbdochub/sqldb:latest
     build:
       context: .
       dockerfile: ./src/TicketManagement.Database.Build/Dockerfile
