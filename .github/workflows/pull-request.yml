@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -30,5 +30,3 @@ jobs:
 
       - name: Integration Test
         run: dotnet test test/TicketManagement.IntegrationTests/TicketManagement.IntegrationTests.csproj /p:CollectCoverage=true /p:CollectOutput=TestResults/ /p:CollectOutputFormat=1cov --no-restore --verbosity normal
-
-    
