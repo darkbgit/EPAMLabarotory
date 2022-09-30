@@ -35,7 +35,7 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
 
       - name: Publish TicketManagementWeb
-        run: dotnet publish src/TicketManagement.Database.Build/TicketManagement.Database.Build.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+        run: dotnet build src/TicketManagement.Database.Build/TicketManagement.Database.Build.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
 
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
