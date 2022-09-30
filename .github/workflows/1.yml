@@ -20,13 +20,10 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Install dependencies
-        run: dotnet restore ./TicketManagement.sln
+        run: dotnet restore ./src/TicketManagement.Database/TicketManagement.Database.sqlproj
 
       - name: Build
-        run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
-
-      - name: Test
-        run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj --no-restore --verbosity normal
+        run: dotnet build src/TicketManagement.Database/TicketManagement.Database.sqlproj --configuration Release --no-restore
 
       - name: Create artifacts folder
         run: |
