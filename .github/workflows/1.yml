@@ -36,4 +36,4 @@ jobs:
       - name: Build the Docker image
         run: docker-compose build
       - name: Docker Push
-        run: docker-compose push darkbdochub/ticketmanagement
+        run: docker-compose push darkbdochub/ticketmanagement:latest
