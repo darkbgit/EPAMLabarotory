@@ -1,11 +1,12 @@
-name: develop-branch
+name: pull-request
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
 
 jobs:
-  if_merged:
-    build:
+  build:
       runs-on: ubuntu-latest
 
     steps:
@@ -29,3 +30,5 @@ jobs:
 
       - name: Integration Test
         run: dotnet test test/TicketManagement.IntegrationTests/TicketManagement.IntegrationTests.csproj /p:CollectCoverage=true /p:CollectOutput=TestResults/ /p:CollectOutputFormat=1cov --no-restore --verbosity normal
+
+    
