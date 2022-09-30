@@ -3,7 +3,7 @@ name: TicketManagement
 on:
   push:
     branches:
-      - master
+      - task-6
 
 jobs:
   build:
@@ -42,7 +42,7 @@ jobs:
 
       - name: Publish TicketManagementDB
         run: dotnet build src/TicketManagement.Database.Build/TicketManagement.Database.Build.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
-      
+
       - name: Publish TicketManagementEventService
         run: dotnet publish src/TicketManagement.EventManagement.API/TicketManagement.EventManagement.API.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
 
@@ -64,7 +64,7 @@ jobs:
       - name: Package TicketManagementDB
         run: |
           octo pack --id="TicketManagement.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
-      
+
       - name: Package TicketManagementEventService
         run: |
           octo pack --id="TicketManagement.EventManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
