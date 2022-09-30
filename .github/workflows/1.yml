@@ -20,10 +20,10 @@ jobs:
           dotnet-version: "6.0.x"
 
       - name: Install dependencies
-        run: dotnet restore ./src/TicketManagement.Database/TicketManagement.Database.sqlproj
+        run: dotnet restore ./src/TicketManagement.Database.Build/TicketManagement.Database.Build.csproj
 
       - name: Build
-        run: dotnet build src/TicketManagement.Database/TicketManagement.Database.sqlproj --configuration Release --no-restore
+        run: dotnet build src/TicketManagement.Database.Build/TicketManagement.Database.Build.csproj --configuration Release --no-restore
 
       - name: Create artifacts folder
         run: |
@@ -35,7 +35,7 @@ jobs:
           mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
 
       - name: Publish TicketManagementWeb
-        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.sqlproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.Build.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
 
       - name: Install Octopus CLI
         uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
