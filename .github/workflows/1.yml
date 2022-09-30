@@ -1,0 +1,58 @@
+name: TicketManagement
+
+on:
+  push:
+    branches:
+      - task-6
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set Version
+        run: echo "PACKAGE_VERSION=$(date +'%Y.%m.%d').$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "6.0.x"
+
+      - name: Install dependencies
+        run: dotnet restore ./TicketManagement.sln
+
+      - name: Build
+        run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj --no-restore --verbosity normal
+
+      - name: Create artifacts folder
+        run: |
+          mkdir "$GITHUB_WORKSPACE/artifacts"
+          mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+          mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.MVC"
+          mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.EventManagement.API"
+          mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API"
+          mkdir "$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API"
+
+      - name: Publish TicketManagementWeb
+        run: dotnet publish src/TicketManagement.Database/TicketManagement.Database.csproj --configuration Release --no-restore --output "$GITHUB_WORKSPACE/artifacts/TicketManagement.Database"
+
+      - name: Install Octopus CLI
+        uses: OctopusDeploy/install-octopus-cli-action@v1.1.6
+        with:
+          version: latest
+
+      - name: Package TicketManagementWeb
+        run: |
+          octo pack --id="TicketManagement.Database" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.Database" --outFolder="$GITHUB_WORKSPACE/artifacts"
+
+      - name: Push TicketManagement packages
+        uses: OctopusDeploy/push-package-action@v1.1.1
+        with:
+          api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
+          server: ${{ secrets.OCTOPUSSERVERURL }}
+          packages: "artifacts/TicketManagement.Database.${{ env.PACKAGE_VERSION }}.zip"
+          space: ${{ secrets.OCTOPUSSERVER_SPACE }}

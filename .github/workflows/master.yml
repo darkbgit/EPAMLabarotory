@@ -66,7 +66,7 @@ jobs:
         run: |
           octo pack --id="TicketManagement.UserManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.UserManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
 
-      - name: Package TicketManagementUserService
+      - name: Package TicketManagementOrderService
         run: |
           octo pack --id="TicketManagement.OrderManagement.API" --format="Zip" --version="$PACKAGE_VERSION" --basePath="$GITHUB_WORKSPACE/artifacts/TicketManagement.OrderManagement.API" --outFolder="$GITHUB_WORKSPACE/artifacts"
 
