@@ -44,7 +44,7 @@ jobs:
 
       - name: Package TicketManagementWeb
         run: |
-          octo push --package=""$GITHUB_WORKSPACE/artifacts/TicketManagement.Database/TicketManagement.Database.Build.dacpac" --server=${{ secrets.OCTOPUSSERVERURL }} --apiKey=${{ secrets.OCTOPUSSERVERAPIKEY }}
+          octo push --package="$GITHUB_WORKSPACE/artifacts/TicketManagement.Database/TicketManagement.Database.Build.dacpac" --server=${{ secrets.OCTOPUSSERVERURL }} --apiKey=${{ secrets.OCTOPUSSERVERAPIKEY }}
 
       # - name: Push TicketManagement packages
       #   uses: OctopusDeploy/push-package-action@v1.1.1
