@@ -3,7 +3,7 @@ name: develop-branch
 on:
   push:
     branches:
-      - task-6
+      - develop
 
 jobs:
   build:
@@ -26,4 +26,4 @@ jobs:
         run: dotnet build src/TicketManagement.MVC/TicketManagement.MVC.csproj --configuration Release --no-restore
 
       - name: Test
-        run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj /p:CollectCoverage=true /p:CollectOutput=TestResults/ /p:CollectOutputFormat=1cov --no-restore --verbosity normal
+        run: dotnet test test/TicketManagement.UnitTests/TicketManagement.UnitTests.csproj --no-restore --verbosity normal

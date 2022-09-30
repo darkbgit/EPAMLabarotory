@@ -3,7 +3,7 @@ name: TicketManagement
 on:
   push:
     branches:
-      - task-6
+      - task-7
 
 jobs:
   build:
@@ -75,7 +75,7 @@ jobs:
         with:
           api_key: ${{ secrets.OCTOPUSSERVERAPIKEY }}
           server: ${{ secrets.OCTOPUSSERVERURL }}
-          packages: "artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip,,artifacts/TicketManagement.OrderManagement.API.${{ env.PACKAGE_VERSION }}.zip"
+          packages: "artifacts/TicketManagement.MVC.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.EventManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.UserManagement.API.${{ env.PACKAGE_VERSION }}.zip,artifacts/TicketManagement.OrderManagement.API.${{ env.PACKAGE_VERSION }}.zip"
           space: ${{ secrets.OCTOPUSSERVER_SPACE }}
 
       - name: Create and deploy release
@@ -87,3 +87,15 @@ jobs:
           project: "Ticket Management"
           deploy_to: "Dev"
           progress: true
+
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: docker login
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Build the Docker image
+        run: docker-compose build
+      - name: Docker Push
+        run: docker compose -f docker-compose.yml push
