@@ -3,13 +3,10 @@ version: "3.4"
 services:
   ticketmanagement.ui:
     image: darkbdochub/ticketmanagement.ui:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./src/TicketManagement.MVC/Dockerfile
     ports:
       - "3000:80"
     environment:
-      - FeatureManagement:React:true
+      - FeatureManagement:React=true
     depends_on:
       - events.api
       - users.api
@@ -18,9 +15,6 @@ services:
 
   events.api:
     image: darkbdochub/events.api:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./src/TicketManagement.EventManagement.API/Dockerfile
     ports:
       - "7001:443"
       - "5001:80"
@@ -38,9 +32,6 @@ services:
 
   users.api:
     image: darkbdochub/users.api:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./src/TicketManagement.UserManagement.API/Dockerfile
     ports:
       - "5002:80"
       - "7002:443"
@@ -58,9 +49,6 @@ services:
 
   orders.api:
     image: darkbdochub/orders.api:latest
-    # build:
-    #  context: .
-    #  dockerfile: ./src/TicketManagement.OrderManagement.API/Dockerfile
     ports:
       - "5003:80"
       - "7003:443"
@@ -78,28 +66,6 @@ services:
 
   sqldb:
     image: darkbdochub/sqldb:latest
-    # build:
-    #   context: .
-    #   dockerfile: ./src/TicketManagement.Database.Build/Dockerfile
     ports:
       - "5433:1433"
     container_name: sqldb
-
-  # sqldb:
-  #   image: mcr.microsoft.com/mssql/server:2019-latest
-  #   user: root
-  #   environment:
-  #     - SA_PASSWORD=Password1!
-  #     - ACCEPT_EULA=Y
-  #   ports:
-  #     - "5433:1433"
-  #   container_name: sqldb
-
-  # sql.data:
-  #   image: mssql-linux
-  #   build:
-  #     context: .
-  #     dockerfile: ./Database/Dockerfile
-  #   ports:
-  #     - "5433:1433"
-  #   container_name: mssql.data

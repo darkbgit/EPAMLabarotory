@@ -10,22 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Checkout
-      #   uses: actions/checkout@v2
-      # - name: Login to Docker Hub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
-      #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v1
-      # - name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: ./docker-compose.yml
-      #     push: true
-      #     tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ticketmanagement:latest
       - name: Checkout
         uses: actions/checkout@v2
       - name: docker login
@@ -36,4 +20,4 @@ jobs:
       - name: Build the Docker image
         run: docker-compose build
       - name: Docker Push
-        run: docker compose -f docker-compose.yml push #darkbdochub/ticketmanagement:latest
+        run: docker compose -f docker-compose.yml push
